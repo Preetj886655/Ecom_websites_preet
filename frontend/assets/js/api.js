@@ -4,7 +4,7 @@
 // All fetch calls to backend go through here
 // =============================================
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://ecom-websites-backend.onrender.com';
 
 // Get the saved token from browser storage
 function getToken() {
