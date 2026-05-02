@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Categories — Prachi Beauty Shop</title>
+</head>
+<body>
+
+<header class="header-part">
+  <section class="top_text">
+    <div class="head_container container">
+      <div class="head_text"><p>Free shipping · Products on rent too!</p></div>
+      <div class="sign_in_up">
+        <a href="login.html">SIGN IN</a>
+        <a href="signup.html">SIGN UP</a>
+      </div>
+    </div>
+  </section>
+  <div class="container_logo">
+    <div class="navbar-brand">
+      <a href="index.html">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe1R3Qo7BKO021XDz0IxJQV6WC5vmh_4PW2g&s" alt="Logo" class="logo">
+      </a>
+    </div>
+    <div class="navbar">
+      <ul>
+        <li class="nav-item"><a href="index.html"    class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="Category.html" class="nav-link">Category</a></li>
+        <li class="nav-item"><a href="product.html"  class="nav-link">Product</a></li>
+        <li class="nav-item"><a href="contact.html"  class="nav-link">Contact</a></li>
+        <li class="nav-item">
+          <a href="addTocard.html" class="nav-link add-to-card-button" id="cartvalue">
+            <i class="fa-solid fa-cart-shopping"></i> 0
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<section class="section-extra-product">
+  <h2><strong>Explore Categories</strong></h2>
+  <p style="text-align:center;color:var(--text-muted);margin-bottom:32px;font-size:15px">
+    Click any category to browse its products
+  </p>
+  <div class="container lehengas-products grid-three--cols" id="categoriesContainer">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted)">
+      <i class="fa-solid fa-spinner fa-spin" style="font-size:28px;display:block;margin-bottom:12px"></i>
+      Loading categories...
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container grid grid-three--cols">
+    <div class="footer-1--div">
+      <a href="index.html" class="footer-subheading">Prachi Beauty Parlour</a>
+      <p>© 2025 Prachi Beauty Parlour. All rights reserved.</p>
+    </div>
+    <div class="footer-2--div">
+      <p class="footer-subheading">Links</p>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-3--div">
+      <p class="footer-subheading">Get in Touch</p>
+      <ul>
+        <li><p>Call: +91 9839903560</p></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/products.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', loadCategories);
+</script>
+</body>
+</html>

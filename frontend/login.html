@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Sign In — Prachi Beauty Shop</title>
+</head>
+<body>
+
+<header class="header-part">
+  <section class="top_text">
+    <div class="head_container container">
+      <div class="head_text"><p>Free shipping · 30-day returns · Products on rent</p></div>
+      <div class="sign_in_up">
+        <a href="login.html">SIGN IN</a>
+        <a href="signup.html">SIGN UP</a>
+      </div>
+    </div>
+  </section>
+  <div class="container_logo">
+    <div class="navbar-brand">
+      <a href="index.html">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe1R3Qo7BKO021XDz0IxJQV6WC5vmh_4PW2g&s" alt="Prachi Shop Logo" class="logo">
+      </a>
+    </div>
+    <div class="navbar">
+      <ul>
+        <li class="nav-item"><a href="index.html"    class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="Category.html" class="nav-link">Category</a></li>
+        <li class="nav-item"><a href="product.html"  class="nav-link">Product</a></li>
+        <li class="nav-item"><a href="contact.html"  class="nav-link">Contact</a></li>
+        <li class="nav-item">
+          <a href="addTocard.html" class="nav-link add-to-card-button" id="cartvalue">
+            <i class="fa-solid fa-cart-shopping"></i> 0
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<section class="auth-page">
+  <div class="auth-card">
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to your Prachi Beauty Shop account 🌸</p>
+
+    <div class="auth-field">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="Enter your email" autocomplete="email" />
+    </div>
+    <div class="auth-field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" />
+    </div>
+
+    <button class="auth-btn" id="loginBtn" onclick="handleLogin()">
+      Sign In
+    </button>
+    <div class="auth-msg" id="loginMsg"></div>
+    <div class="auth-link">
+      Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p style="text-align:center">© 2025 Prachi Beauty Parlour. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/js/api.js"></script>
+<script>
+  if (isLoggedIn()) window.location.href = 'index.html';
+
+  async function handleLogin() {
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const btn      = document.getElementById('loginBtn');
+
+    if (!email || !password) {
+      showMsg('Please enter email and password', 'error'); return;
+    }
+
+    btn.disabled    = true;
+    btn.textContent = 'Signing in...';
+
+    const res = await api.post('/auth/login', { email, password });
+
+    if (res.ok) {
+      saveAuth(res.data.token, res.data.user);
+      showMsg(res.data.message, 'success');
+      setTimeout(() => {
+        const redirect = new URLSearchParams(window.location.search).get('redirect');
+        window.location.href = redirect || 'index.html';
+      }, 1000);
+    } else {
+      showMsg(res.data.message || 'Login failed', 'error');
+      btn.disabled    = false;
+      btn.textContent = 'Sign In';
+    }
+  }
+
+  function showMsg(text, type) {
+    const msg = document.getElementById('loginMsg');
+    msg.textContent = text;
+    msg.className   = 'auth-msg ' + type;
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+</script>
+</body>
+</html>

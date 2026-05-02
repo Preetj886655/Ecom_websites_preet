@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Products — Prachi Beauty Shop</title>
+  <style>
+    .filter-bar {
+      display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+      padding: 20px 24px; max-width: 1200px; margin: 0 auto 8px;
+    }
+    .filter-bar input[type="text"] {
+      flex: 1; min-width: 200px; padding: 10px 16px;
+      border: 1px solid var(--border); border-radius: 30px;
+      font-size: 14px; background: var(--white); outline: none;
+      transition: border-color 0.2s;
+    }
+    .filter-bar input:focus { border-color: var(--rose-gold); }
+    .filter-bar select {
+      padding: 10px 16px; border: 1px solid var(--border);
+      border-radius: 30px; font-size: 14px;
+      background: var(--white); outline: none; cursor: pointer;
+    }
+    .filter-bar select:focus { border-color: var(--rose-gold); }
+    .filter-btn {
+      padding: 10px 22px; border-radius: 30px;
+      background: var(--deep-plum); color: var(--white);
+      border: none; font-size: 14px; font-weight: 500;
+      transition: background 0.2s;
+    }
+    .filter-btn:hover { background: var(--rose-gold); }
+  </style>
+</head>
+<body>
+
+<header class="header-part">
+  <section class="top_text">
+    <div class="head_container container">
+      <div class="head_text"><p>Free shipping · 30-day returns · Products on rent</p></div>
+      <div class="sign_in_up">
+        <a href="login.html">SIGN IN</a>
+        <a href="signup.html">SIGN UP</a>
+      </div>
+    </div>
+  </section>
+  <div class="container_logo">
+    <div class="navbar-brand">
+      <a href="index.html">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe1R3Qo7BKO021XDz0IxJQV6WC5vmh_4PW2g&s" alt="Logo" class="logo">
+      </a>
+    </div>
+    <div class="navbar">
+      <ul>
+        <li class="nav-item"><a href="index.html"    class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="Category.html" class="nav-link">Category</a></li>
+        <li class="nav-item"><a href="product.html"  class="nav-link">Product</a></li>
+        <li class="nav-item"><a href="contact.html"  class="nav-link">Contact</a></li>
+        <li class="nav-item">
+          <a href="addTocard.html" class="nav-link add-to-card-button" id="cartvalue">
+            <i class="fa-solid fa-cart-shopping"></i> 0
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<section class="section-product">
+  <h1><b>Shop Now</b></h1>
+  <div class="container">
+    <div class="section-common-heading">Browse our complete collection</div>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="filter-bar">
+    <input type="text" id="searchInput" placeholder="Search products..." />
+    <select id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="Lehengas">Lehengas</option>
+      <option value="Sarees">Sarees</option>
+      <option value="Suits">Suits</option>
+      <option value="Kurtis">Kurtis</option>
+      <option value="Accessories">Accessories</option>
+    </select>
+    <select id="sortFilter">
+      <option value="">Sort By</option>
+      <option value="price_low">Price: Low to High</option>
+      <option value="price_high">Price: High to Low</option>
+      <option value="rating">Top Rated</option>
+    </select>
+    <button class="filter-btn" onclick="applyFilters()">
+      <i class="fa-solid fa-filter"></i> Filter
+    </button>
+  </div>
+
+  <div id="product_container">
+    <div style="text-align:center;padding:48px;color:var(--text-muted)">
+      <i class="fa-solid fa-spinner fa-spin" style="font-size:28px;display:block;margin-bottom:12px"></i>
+      Loading...
+    </div>
+  </div>
+</section>
+
+<template id="productTemplate">
+  <div class="cards">
+    <article class="information">
+      <span class="category"></span>
+      <div class="imageContainer">
+        <img class="productImage" src="" alt="">
+      </div>
+      <h2 class="productName"></h2>
+      <div class="productRating"></div>
+      <p class="productDescription"></p>
+      <div class="productPriceElement">
+        <p class="productPrice"></p>
+        <p class="productActualPrice"></p>
+      </div>
+      <div class="pro_stocks">
+        <p class="productProperty">Stock:</p>
+        <p class="productStock"></p>
+      </div>
+      <div class="productQuantityElement">
+        <p class="productProperty">Quantity</p>
+        <div class="stockElement">
+          <button class="cartIncrement">+</button>
+          <p class="productQuantity">1</p>
+          <button class="cartDecrement">-</button>
+        </div>
+      </div>
+      <button class="btn-add-cart">
+        <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+      </button>
+    </article>
+  </div>
+</template>
+
+<footer>
+  <div class="container grid grid-three--cols">
+    <div class="footer-1--div">
+      <a href="index.html" class="footer-subheading">Prachi Beauty Parlour</a>
+      <p>© 2025 Prachi Beauty Parlour. All rights reserved.</p>
+    </div>
+    <div class="footer-2--div">
+      <p class="footer-subheading">Links</p>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-3--div">
+      <p class="footer-subheading">Get in Touch</p>
+      <ul>
+        <li><p>Call: +91 9839903560</p></li>
+        <li><p>Email: contact@prachibeautyparlour.com</p></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/products.js"></script>
+<script>
+  function applyFilters() {
+    const search   = document.getElementById('searchInput').value.trim();
+    const category = document.getElementById('categoryFilter').value;
+    const sort     = document.getElementById('sortFilter').value;
+    const params   = {};
+    if (search)   params.search   = search;
+    if (category) params.category = category;
+    if (sort)     params.sort     = sort;
+    loadProducts(params);
+  }
+
+  // Also filter on Enter key in search box
+  document.getElementById('searchInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') applyFilters();
+  });
+
+  // Check URL for pre-selected category (from clicking a category card)
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const cat = urlParams.get('category');
+    if (cat) {
+      document.getElementById('categoryFilter').value = cat;
+      loadProducts({ category: cat });
+    } else {
+      loadProducts();
+    }
+  });
+</script>
+</body>
+</html>
