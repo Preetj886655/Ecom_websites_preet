@@ -184,7 +184,12 @@ async function loadCategories() {
 }
 
 // ---- INIT ----
+// Guard checks prevent errors on pages that don't have these elements
 document.addEventListener('DOMContentLoaded', () => {
-  loadCategories();
-  loadProducts();
+  if (document.getElementById('categoriesContainer')) {
+    loadCategories();
+  }
+  if (document.getElementById('product_container') && document.getElementById('productTemplate')) {
+    loadProducts();
+  }
 });

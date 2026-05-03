@@ -1,41 +1,42 @@
 // assets/js/api.js
 // =============================================
 // SHARED API HELPER
-// All fetch calls to backend go through here
 // =============================================
 
-const API_BASE = 'https://ecom-websites-backend.onrender.com';
+// Auto-detects local vs deployed environment
+const isLocal = window.location.hostname === 'localhost'
+             || window.location.hostname === '127.0.0.1';
 
-// Get the saved token from browser storage
+// FIX: Use full backend URL for production (two separate Render services)
+const API_BASE = isLocal
+  ? 'http://localhost:5000/api'
+  : 'https://ecom-websites-backend.onrender.com/api';
+
+// ---- Auth helpers ----
 function getToken() {
   return localStorage.getItem('prachiToken');
 }
 
-// Get the saved user object
 function getUser() {
   const u = localStorage.getItem('prachiUser');
   return u ? JSON.parse(u) : null;
 }
 
-// Check if user is logged in
 function isLoggedIn() {
   return !!getToken();
 }
 
-// Save login data
 function saveAuth(token, user) {
   localStorage.setItem('prachiToken', token);
   localStorage.setItem('prachiUser', JSON.stringify(user));
 }
 
-// Clear login data (logout)
 function clearAuth() {
   localStorage.removeItem('prachiToken');
   localStorage.removeItem('prachiUser');
 }
 
 // ---- Core fetch helper ----
-// Automatically adds Authorization header if token exists
 async function apiRequest(endpoint, options = {}) {
   const token = getToken();
   const headers = { 'Content-Type': 'application/json', ...options.headers };
@@ -48,7 +49,6 @@ async function apiRequest(endpoint, options = {}) {
     });
     const data = await response.json();
 
-    // If token expired, force logout
     if (response.status === 401) {
       clearAuth();
       updateNavbar();
@@ -56,30 +56,31 @@ async function apiRequest(endpoint, options = {}) {
 
     return { ok: response.ok, status: response.status, data };
   } catch (error) {
-    return { ok: false, data: { message: 'Cannot connect to server. Is backend running?' } };
+    console.error('API Error:', error.message);
+    return {
+      ok: false,
+      data: { message: 'Cannot connect to server. Backend may be starting up — please wait 30 seconds and refresh.' }
+    };
   }
 }
 
 // ---- Convenience methods ----
 const api = {
-  get:    (url)          => apiRequest(url),
-  post:   (url, body)    => apiRequest(url, { method: 'POST',   body: JSON.stringify(body) }),
-  put:    (url, body)    => apiRequest(url, { method: 'PUT',    body: JSON.stringify(body) }),
-  delete: (url)          => apiRequest(url, { method: 'DELETE' })
+  get:    (url)       => apiRequest(url),
+  post:   (url, body) => apiRequest(url, { method: 'POST',   body: JSON.stringify(body) }),
+  put:    (url, body) => apiRequest(url, { method: 'PUT',    body: JSON.stringify(body) }),
+  delete: (url)       => apiRequest(url, { method: 'DELETE' })
 };
 
-// =============================================
-// NAVBAR: update Sign In / Sign Up based on login state
-// =============================================
+// ---- NAVBAR: update based on login state ----
 function updateNavbar() {
   const signInUp = document.querySelector('.sign_in_up');
-  const cartEl   = document.getElementById('cartvalue');
   if (!signInUp) return;
 
   const user = getUser();
   if (user) {
     signInUp.innerHTML = `
-      <span style="font-weight:500">Hi, ${user.name.split(' ')[0]} 👋</span>
+      <span style="font-weight:500;color:rgba(255,255,255,0.9)">Hi, ${user.name.split(' ')[0]} 👋</span>
       <a href="orders.html">My Orders</a>
       <a href="#" onclick="logout(); return false;">LOGOUT</a>
     `;
@@ -90,7 +91,6 @@ function updateNavbar() {
     `;
   }
 
-  // Update cart count
   updateCartCount();
 }
 
@@ -105,7 +105,9 @@ async function updateCartCount() {
 
   const res = await api.get('/cart');
   if (res.ok) {
-    const count = res.data.items ? res.data.items.reduce((s, i) => s + i.quantity, 0) : 0;
+    const count = res.data.items
+      ? res.data.items.reduce((s, i) => s + i.quantity, 0)
+      : 0;
     cartEl.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> ${count}`;
   }
 }
