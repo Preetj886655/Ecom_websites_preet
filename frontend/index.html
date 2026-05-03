@@ -50,13 +50,15 @@
   <section class="main-section">
     <div class="grid container">
       <figure>
-        <div class="image-rotator">
+        <!-- FIX: explicit height + overflow:hidden stops auto-scroll -->
+        <div class="image-rotator" style="position:relative;width:100%;height:540px;overflow:hidden;background:#f5e6e0;">
           <div class="image-text">
             <h1>Welcome to Prachi Beauty</h1>
             <p>Redefine Your Celebrations</p>
           </div>
+          <!-- FIX: removed 'active' class — hero.js now controls opacity directly -->
           <img src="https://manyavar.scene7.com/is/image/manyavar/Mohey_Redefine_Celebrations_D_22-11-2024-11-12?$manyavar-image-default-preset$"
-               alt="Bridal Lehengas" class="img img-1 active">
+               alt="Bridal Lehengas" class="img img-1">
           <img src="https://www.manyavar.com/on/demandware.static/-/Library-Sites-ManyavarSharedLibrary/default/dw1b049f60/styledbymanyavar/STYLED_BY_MOHEY_Landing_D.jpg"
                alt="Styled by Mohey" class="img img-2">
           <img src="https://yashwinibeautyparlour.in/images/slider-bg.jpg"
@@ -111,8 +113,8 @@
   <div class="container">
     <div class="section-common-heading">Check out our latest collection</div>
   </div>
-  <div id="product_container">
-    <div style="text-align:center;padding:40px;color:var(--text-muted)">
+  <div id="product_container" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;padding:0 24px;max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;padding:40px;color:var(--text-muted);grid-column:1/-1">
       <i class="fa-solid fa-spinner fa-spin" style="font-size:28px;margin-bottom:12px;display:block"></i>
       Loading products...
     </div>
