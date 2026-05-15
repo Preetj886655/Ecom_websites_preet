@@ -10,7 +10,7 @@ const isLocal = window.location.hostname === 'localhost'
 // FIX: Use full backend URL for production (two separate Render services)
 const API_BASE = isLocal
   ? 'http://localhost:5000/api'
-  : 'https://ecom-websites-backend.onrender.com';
+  : 'https://ecom-websites-backend.onrender.com/';
 
 // ---- Auth helpers ----
 function getToken() {
